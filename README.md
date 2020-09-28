@@ -9,3 +9,6 @@
 devtools::install_github("richardkwo/eff2")
 ```
 
+## Reference
+
+Guo, F. Richard, and Emilija Perković. "Efficient Least Squares for Estimating Total Effects under Linearity and Causal Sufficiency." *[arXiv preprint arXiv:2008.03481](https://arxiv.org/abs/2008.03481)* (2020).

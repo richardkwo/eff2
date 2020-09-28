@@ -30,7 +30,8 @@ Imports:
     igraph
 Suggests: knitr,
     rmarkdown,
-    testthat
+    testthat,
+    qgraph
 VignetteBuilder: knitr
 RoxygenNote: 7.1.1
 Roxygen: list(markdown = TRUE)
