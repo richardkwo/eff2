@@ -23,7 +23,7 @@ License: MIT + file LICENSE
 URL: https://github.com/richardkwo/eff2
 BugReports: https://github.com/richardkwo/eff2/issues
 Depends:
-    R (>= 3.0)
+    R (>= 3.5.0)
 Imports: 
     pcalg (>= 2.6),
     RBGL,
