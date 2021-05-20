@@ -6,7 +6,24 @@
 ## Installation
 ``` r
 # install.packages("devtools")
-devtools::install_github("richardkwo/eff2")
+# install.packages("rmarkdown")
+# install.packages("qgraph")
+devtools::install_github("richardkwo/eff2", build_vignettes = TRUE)
+```
+
+In case of problem, first make sure dependency [pcalg](https://cran.r-project.org/web/packages/pcalg/index.html) is properly installed. Several packages required by `pcalg` are removed from CRAN and have to be installed from BioConductor:
+
+```R
+if (!requireNamespace("BiocManager", quietly = TRUE))
+    install.packages("BiocManager")
+BiocManager::install("graph")
+BiocManager::install("RBGL")
+```
+
+For a quick start, check out the vignette:
+
+```R
+vignette("eff2-doc")
 ```
 
 ## Reference
