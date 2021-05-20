@@ -16,12 +16,12 @@ can be a singleton (single treatment) or a vector (multiple treatments)}
 
 \item{amat}{adjacency matrix representing a DAG, CPDAG or MPDAG}
 
-\item{bootstrap}{If \code{TRUE}, will estimate the asymptotic covariance with
+\item{bootstrap}{If \code{TRUE}, will estimate the standard error covariance with
 bootstrap (default: \code{FALSE})}
 }
 \value{
 A vector of the same length as \code{x}. If \code{bootstrap=TRUE},
-return a list of \code{(effect, asymp.cov)}.
+return a list of \code{(effect, se.cov)}.
 }
 \description{
 Estimate the total causal effect of x on y with iterated least squares.
@@ -52,8 +52,8 @@ incorporated with \code{\link[pcalg]{addBgKnowledge}}.
 data("ex1")
 result <- estimateEffect(ex1$data, c(5,3), 7, ex1$amat.cpdag, bootstrap=TRUE)
 print(result$effect)
-print(result$effect - 1.64 * sqrt(diag(result$asymp.cov)))
-print(result$effect + 1.64 * sqrt(diag(result$asymp.cov)))
+print(result$effect - 1.96 * sqrt(diag(result$se.cov)))
+print(result$effect + 1.96 * sqrt(diag(result$se.cov)))
 # compare with truth
 print(ex1$true.effects)
 

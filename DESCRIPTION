@@ -1,7 +1,7 @@
 Package: eff2
 Type: Package
 Title: Efficient Least Squares for Total Causal Effects
-Version: 0.1.0
+Version: 1.0.0
 Authors@R: c(
     person("Richard", "Guo", , "ricguo@uw.edu", role = c("aut", "cre"), 
       comment = c(ORCID = "0000-0002-2081-7398"))

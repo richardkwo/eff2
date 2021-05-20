@@ -1,0 +1,130 @@
+---
+title: "eff2: Efficient least squares for total causal effects"
+output: rmarkdown::html_vignette
+description: >
+  A short intrudction to the basic usage of eff2.
+vignette: >
+  %\VignetteIndexEntry{eff2: Efficient least squares for total causal effects}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+  \usepackage[utf8]{inputenc}
+---
+
+```{r, include = FALSE}
+knitr::opts_chunk$set(
+  collapse = TRUE,
+  comment = "#>"
+)
+```
+
+We will walk through the use of the package with a built-in example dataset.
+
+```{r setup}
+library(eff2)
+library(qgraph)
+data("ex1")
+```
+
+The example dataset is generated from a linear structural equation model (SEM) 
+according to a directed acyclic graph (DAG). There are 10 real-valued variables $V=\{1,\dots,10\}$.
+
+```{r, fig.align='center', fig.retina=2, fig.width=4}
+q.dag <- qgraph(t(ex1$amat.dag), layout="spring", repulsion=0.5)
+```
+
+**Note**: adjacency matrix in this package follows the convention of package [pcalg](https://cran.r-project.org/web/packages/pcalg/index.html):
+
+* `amat[i,j]=0}` and `amat[j,i]=1` means `i->j`
+* `amat[i,j]=1` and `amat[j,i]=0` means `i<-j`
+* `amat[i,j]=0` and `amat[j,i]=0` means `i  j`
+* `amat[i,j]=1` and `amat[j,i]=1` means `i--j`
+
+Hence, for plotting with `qgraph`, a transpose `t()` is taken. 
+
+The observational data is generated from
+$$ X_i = \sum_{j} B_{ij} X_j + \varepsilon_i, \quad i \in V$$
+where $\{\varepsilon_i: i \in V\}$ are independent errors. The non-zero pattern
+of coefficient matrix $B$ is encoded by the adjacency matrix of the DAG. That is, 
+$B_{ij} \neq 0$ only if $A_{ij} = 1$. 
+
+## Total effect 
+For vertices $i$ and $j$ such that there is a causal path $i \rightarrow \dots \rightarrow j$, 
+$i$ has a (generically) non-zero total effect $\tau_{ij}$ on $j$. Given the DAG, 
+the effect can be estimated from data. 
+
+We will use a simulated dataset that consists of 500 observations. 
+```{r}
+str(ex1$data)
+```
+
+For example, the total effect from 1 to 10 is estimated as
+```{r}
+estimateEffect(ex1$data, 1, 10, ex1$amat.dag)
+```
+Compare this with the true total effect
+```{r}
+eff2:::getEffectsFromSEM(ex1$B, 1, 10)  # truth
+```
+
+Here, the effect is in terms of variable 1 is intervened on (point intervention). 
+Similarly, we can estimate the total effect of several variables on a target (joint intervention).
+For example, consider the total effect of (1,2) on 10:
+```{r}
+estimateEffect(ex1$data, c(1,2), 10, ex1$amat.dag)
+eff2:::getEffectsFromSEM(ex1$B, c(1,2), 10)   # truth
+```
+
+## Partial graphical knowledge
+Typically, however, the underlying causal DAG is unavailable to us. One can try
+to estimate such a DAG from observational data. This task is called *causal discovery*
+or *structure learning*; we recommend taking a look at package [pcalg](https://cran.r-project.org/web/packages/pcalg/index.html), which provides
+several methods.
+
+Nevertheless, without making additional
+assumptions, only the Markov equivalence class of the DAG can be recovered. In 
+particular, for certain edges, their directions may not be determined. A Markov equivalence classes (or its further refinements due to background knowledge) is represented by a CPDAG (MPDAG).
+
+```{r, fig.align='center', fig.retina=2, fig.width=4}
+qgraph(t(ex1$amat.cpdag), bidirectional=TRUE, layout=q.dag$layout)
+```
+
+We can see that the directions of `2--3` and `2--5` are undetermined (drawn as bi-directed above). 
+
+We can still estimate total effects based on the graph above. 
+For example, the effect from 1 to 10:
+```{r}
+estimateEffect(ex1$data, 1, 10, ex1$amat.cpdag)
+eff2:::getEffectsFromSEM(ex1$B, 1, 10)  # truth
+```
+
+However, because some edges are unoriented, not all total effects can be identified. 
+```{r, error=TRUE, purl = FALSE}
+estimateEffect(ex1$data, c(1,2), 10, ex1$amat.cpdag)
+```
+An error will be thrown if you try to estimate these **unidentified** total effects. 
+Function `isIdentified` can be called to determine if a total effect can be estimated.
+For example,
+```{r, error=TRUE}
+isIdentified(ex1$amat.cpdag, c(1,2), 10)
+isIdentified(ex1$amat.cpdag, c(1,6), 10)
+```
+and 
+```{r, error=TRUE}
+isIdentified(ex1$amat.cpdag, 3, 7)
+isIdentified(ex1$amat.cpdag, 5, 7)
+isIdentified(ex1$amat.cpdag, c(3,5), 7)
+```
+
+For statistical inference (e.g., constructing confidence intervals), standard error
+covariance (asymptotic covariance divided by n) can also be computed by setting
+`bootstrap=TRUE`.
+```{r}
+result <- estimateEffect(ex1$data, c(3,5), 7, ex1$amat.cpdag, bootstrap=TRUE);
+print(result$effect)
+# 95% CI
+print(result$effect - 1.96 * sqrt(diag(result$se.cov)))
+print(result$effect + 1.96 * sqrt(diag(result$se.cov)))
+# truth
+eff2:::getEffectsFromSEM(ex1$B, c(3,5), 7)
+```
+

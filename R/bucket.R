@@ -119,11 +119,11 @@ isValidBucketDecomp <- function(buckets, amat) {
 #'   can be a singleton (single treatment) or a vector (multiple treatments)
 #' @param y (integer) position of the outcome variable in the adjacency matrix
 #' @param amat adjacency matrix representing a DAG, CPDAG or MPDAG
-#' @param bootstrap If \code{TRUE}, will estimate the asymptotic covariance with
+#' @param bootstrap If \code{TRUE}, will estimate the standard error covariance with
 #'  bootstrap (default: \code{FALSE})
 #' @export
 #' @return A vector of the same length as \code{x}. If \code{bootstrap=TRUE},
-#'  return a list of \code{(effect, asymp.cov)}.
+#'  return a list of \code{(effect, se.cov)}.
 #' @seealso \code{\link{isIdentified}} is called for determining if an effect can be
 #' identified. See also \code{\link[pcalg]{adjustment}}, \code{\link[pcalg]{ida}},
 #'  and \code{\link[pcalg]{jointIda}} for other estimators.
@@ -131,8 +131,8 @@ isValidBucketDecomp <- function(buckets, amat) {
 #' data("ex1")
 #' result <- estimateEffect(ex1$data, c(5,3), 7, ex1$amat.cpdag, bootstrap=TRUE)
 #' print(result$effect)
-#' print(result$effect - 1.64 * sqrt(diag(result$asymp.cov)))
-#' print(result$effect + 1.64 * sqrt(diag(result$asymp.cov)))
+#' print(result$effect - 1.96 * sqrt(diag(result$se.cov)))
+#' print(result$effect + 1.96 * sqrt(diag(result$se.cov)))
 #' # compare with truth
 #' print(ex1$true.effects)
 #'
@@ -152,6 +152,10 @@ estimateEffect <- function(data, x, y, amat, bootstrap=FALSE) {
     bootstrap.df <- replicate(400, {
       .estimateEffect(stats::cov(data[sample(n, replace = TRUE), ]), x, y, amat)
     })
-    return(list(effect=effect, asymp.cov=stats::cov(t(bootstrap.df))))
+    if (length(x)==1) {
+      return(list(effect=effect, se.cov=stats::var(bootstrap.df)))
+    } else {
+      return(list(effect=effect, se.cov=stats::cov(t(bootstrap.df))))
+    }
   }
 }
