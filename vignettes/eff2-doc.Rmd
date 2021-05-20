@@ -32,7 +32,7 @@ according to a directed acyclic graph (DAG). There are 10 real-valued variables 
 q.dag <- qgraph(t(ex1$amat.dag), layout="spring", repulsion=0.5)
 ```
 
-**Note**: adjacency matrix in this package follows the convention of package [pcalg](https://cran.r-project.org/web/packages/pcalg/index.html):
+**Note**: adjacency matrix in this package follows the convention of package [pcalg](https://CRAN.R-project.org/package=pcalg):
 
 * `amat[i,j]=0}` and `amat[j,i]=1` means `i->j`
 * `amat[i,j]=1` and `amat[j,i]=0` means `i<-j`
@@ -77,7 +77,7 @@ eff2:::getEffectsFromSEM(ex1$B, c(1,2), 10)   # truth
 ## Partial graphical knowledge
 Typically, however, the underlying causal DAG is unavailable to us. One can try
 to estimate such a DAG from observational data. This task is called *causal discovery*
-or *structure learning*; we recommend taking a look at package [pcalg](https://cran.r-project.org/web/packages/pcalg/index.html), which provides
+or *structure learning*; we recommend taking a look at package [pcalg](https://CRAN.R-project.org/package=pcalg), which provides
 several methods.
 
 Nevertheless, without making additional

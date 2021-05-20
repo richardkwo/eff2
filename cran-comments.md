@@ -4,14 +4,4 @@
 * win-builder (stable and release)
 
 ## R CMD check results
-There were no ERRORs or WARNINGs.
-
-There were 2 notes from win-builder:
-
-** running examples for arch 'i386' ... [23s] NOTE
-Examples with CPU (user + system) or elapsed time > 10s
-
-and 
-
-** running examples for arch 'x64' ... [25s] NOTE
-Examples with CPU (user + system) or elapsed time > 10s
+There were no ERRORs, WARNINGs or NOTEs.

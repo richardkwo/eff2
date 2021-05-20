@@ -149,7 +149,7 @@ estimateEffect <- function(data, x, y, amat, bootstrap=FALSE) {
   } else {
     effect <- .estimateEffect(stats::cov(data), x, y, amat)
     n <- nrow(data)
-    bootstrap.df <- replicate(400, {
+    bootstrap.df <- replicate(100, {
       .estimateEffect(stats::cov(data[sample(n, replace = TRUE), ]), x, y, amat)
     })
     if (length(x)==1) {

@@ -11,7 +11,7 @@
 devtools::install_github("richardkwo/eff2", build_vignettes = TRUE)
 ```
 
-In case of problem, first make sure dependency [pcalg](https://cran.r-project.org/web/packages/pcalg/index.html) is properly installed. Several packages required by `pcalg` are removed from CRAN and have to be installed from BioConductor:
+In case of problem, first make sure dependency [pcalg](https://cran.r-project.org/package=pcalg) is properly installed. Several packages required by `pcalg` are removed from CRAN and have to be installed from BioConductor:
 
 ```R
 if (!requireNamespace("BiocManager", quietly = TRUE))
