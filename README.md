@@ -5,7 +5,7 @@
 
 ## Installation
 
-From CRAN:
+From [CRAN](https://cran.r-project.org/package=eff2):
 
 ```R
 install.packages("eff2")
