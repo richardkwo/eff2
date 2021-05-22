@@ -6,4 +6,5 @@
 
 - Bug fix: bootstrap variance under point intervention.
 - Added a vignette. 
+- Appears on CRAN
 
