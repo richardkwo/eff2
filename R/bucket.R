@@ -29,7 +29,7 @@ getBucketDecomp <- function(x, y, amat) {
   amat.x.removed[, x] <- 0
   an.y <- getPossAn(amat.x.removed, y)
   # get induced bucket partitioning of an.y
-  induced.buckets <- lapply(connected.comps, function(C) intersect(C, an.y))
+  induced.buckets <- lapply(connected.comps, function(C) intersect(as.integer(C), an.y))
   induced.buckets <- induced.buckets[lapply(induced.buckets, length) > 0]
   return(induced.buckets)
 }

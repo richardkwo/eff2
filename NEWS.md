@@ -1,6 +1,5 @@
-# eff2 0.1.0
-
-- The first release.
+# eff2 1.0.1
+- fixed a compatibility issue with R-devel
 
 # eff2 1.0.0
 
@@ -8,3 +7,6 @@
 - Added a vignette. 
 - Appears on CRAN
 
+# eff2 0.1.0
+
+- The first release.
