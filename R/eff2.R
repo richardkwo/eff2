@@ -21,4 +21,4 @@
 #'
 #' @docType package
 #' @name eff2
-NULL
+"_PACKAGE"

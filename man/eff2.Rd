@@ -3,6 +3,7 @@
 \docType{package}
 \name{eff2}
 \alias{eff2}
+\alias{eff2-package}
 \title{eff2: efficient least squares for estimating total causal effects}
 \description{
 Estimate a total causal effect from observational data under
@@ -24,4 +25,16 @@ Use \code{\link{estimateEffect}} to estimate a total effect.
 
 Use \code{\link{isIdentified}} to determine if a total effect can be
 identified.
+}
+\seealso{
+Useful links:
+\itemize{
+  \item \url{https://github.com/richardkwo/eff2}
+  \item Report bugs at \url{https://github.com/richardkwo/eff2/issues}
+}
+
+}
+\author{
+\strong{Maintainer}: Richard Guo \email{ricguo@uw.edu} (\href{https://orcid.org/0000-0002-2081-7398}{ORCID})
+
 }
