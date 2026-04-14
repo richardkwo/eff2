@@ -37,4 +37,6 @@ vignette("eff2-doc")
 
 ## Reference
 
+F. R. Guo and Emilija Perković. [Efficient least squares for estimating total effects under linearity and causal sufficiency](https://www.jmlr.org/papers/volume23/21-023/21-023.pdf). Journal of Machine Learning Research, 23(104):1-41, 2022.
+
 Guo, F. Richard, and Emilija Perković. "Efficient Least Squares for Estimating Total Effects under Linearity and Causal Sufficiency." *[arXiv preprint arXiv:2008.03481](https://arxiv.org/abs/2008.03481)* (2020).
